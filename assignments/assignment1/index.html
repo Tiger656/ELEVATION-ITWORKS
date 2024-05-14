@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PROJECT</title>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="/src/css/style.css">
+  <script src="src/js/main.js" type="module"></script>
+
+</head>
+
+<body>
+  <div id="container">
+    <h1>Contact Search Tool</h1>
+    <input type="text" id="searchInput" placeholder="Enter name or phone number">
+    <button onClick="searchContacts()">Search</button>
+    <div id="searchResults"></div>
+  </div>
+
+  <script type="module">
+    import { contacts } from '../data/contacts.js';
+    //Exist unresolved problem with import. If I import "contacts" into main, html doesn't see functions in main.js.
+    // Yes, script is declared as type="module"
+    function searchContacts() {
+      const searchInput = document.getElementById('searchInput').value.trim();
+      const searchResults = document.getElementById('searchResults');
+    
+      searchResults.innerHTML = '';
+    
+      const isNumber = /^\d+$/.test(searchInput);
+      let filteredContacts;
+      if (isNumber) {
+        filteredContacts = contacts.results.filter(contact => contact.phone.includes(searchInput));
+      } else {
+        const searchRegex = new RegExp(searchInput, 'i');
+        filteredContacts = contacts.results.filter(contact => searchRegex.test(contact.name.first) || searchRegex.test(contact.name.last));
+      }
+
+      if (filteredContacts.length === 0) {
+        searchResults.innerHTML = '<p>No matching contacts found.</p>';
+      } else {
+        const ul = document.createElement('ul');
+        filteredContacts.forEach(contact => {
+          const li = document.createElement('li');
+          li.textContent = `${contact.name.first} ${contact.name.last} - ${contact.phone}`;
+          ul.appendChild(li);
+        });
+        searchResults.appendChild(ul);
+      }
+  }
+  </script>
+</body>
+
+</html>
