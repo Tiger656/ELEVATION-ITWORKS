@@ -16,7 +16,6 @@ export default function UserProvider ({ children }) {
     
 
     const editUser = (user) => {
-        console.log(54)
         const index = users.findIndex((u) => u.login === user.login);
         const newUsers = [...users];
         newUsers[index] = user;

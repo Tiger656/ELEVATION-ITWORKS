@@ -11,9 +11,7 @@ export default function AuthProvider({ children }) {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(initialUserState);
 
-  console.log(0)
   useEffect(() => {
-    console.log(1)
     if (!isAuthenticated) {
       console.log(1.1)
       navigate('/login');
@@ -21,13 +19,11 @@ export default function AuthProvider({ children }) {
   }, [isAuthenticated]);
 
   const loginHandler = (user) => {
-    console.log(2)
     setIsAuthenticated(true);
     setUser(user);
   };
 
   const logoutHandler = () => {
-    console.log(3)
     setIsAuthenticated(false);
     setUser(initialUserState);
   };
